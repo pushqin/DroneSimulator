@@ -11,20 +11,20 @@ public class CPU {
     private long elapsedMilli;
     private boolean isPlayedBeforeStop;
 
-    public CPU(final int hz, final String name) {
-        this.functions_list = new ArrayList<>();
-        this.isPlay = false;
-        this.isPlayedBeforeStop = false;
+    public CPU(int hz, String name) {
+        functions_list = new ArrayList<>();
+        isPlay = false;
+        isPlayedBeforeStop = false;
 
         this.hz = hz;
-        this.elapsedMilli = 0;
-        this.thread = new Thread("Eventor_" + name) {
+        elapsedMilli = 0;
+        thread = new Thread("Eventor_" + name) {
             public void run() {
                 try {
                     Thread.sleep(10);
-                } catch (final InterruptedException e) {
+                } catch (InterruptedException e) {
                 }
-                CPU.this.thread_run();
+                thread_run();
             }
         };
         thread.start();
@@ -49,26 +49,25 @@ public class CPU {
     }
 
     synchronized void resume() {
-        if (this.isPlayedBeforeStop) {
-            this.isPlay = true;
-            this.notify();
+        if (isPlayedBeforeStop) {
+            isPlay = true;
+            notify();
         }
     }
 
-
-    public void addFunction(final IntConsumer a) {
-        this.functions_list.add(a);
+    public void addFunction(IntConsumer a) {
+        functions_list.add(a);
     }
 
     public void play() {
-        this.isPlay = true;
-        this.isPlayedBeforeStop = true;
-        this.resume();
+        isPlay = true;
+        isPlayedBeforeStop = true;
+        resume();
     }
 
     public void stop() {
-        this.isPlay = false;
-        this.isPlayedBeforeStop = false;
+        isPlay = false;
+        isPlayedBeforeStop = false;
     }
 
     public void thread_run() {
@@ -78,14 +77,14 @@ public class CPU {
         int i = 0;
 
         int time_to_sleep = 2;
-        if (1000 / this.hz > 1) {
-            time_to_sleep = 1000 / this.hz;
+        if (1000 / hz > 1) {
+            time_to_sleep = 1000 / hz;
         }
 
         while (true) {
 
-            if (functions_size != this.functions_list.size()) {
-                functions_size = this.functions_list.size();
+            if (functions_size != functions_list.size()) {
+                functions_size = functions_list.size();
                 last_sample_times = new int[functions_size];
                 i = 0;
             }
@@ -99,27 +98,27 @@ public class CPU {
                 Thread.sleep(time_to_sleep);
                 synchronized (this) {
                     while (!isPlay) {
-                        this.wait();
+                        wait();
                         last_sample = System.currentTimeMillis();
                     }
                 }
-            } catch (final InterruptedException e) {
+            } catch (InterruptedException e) {
             }
 
-            final int diff = (int) (System.currentTimeMillis() - last_sample);
-            final int before_index = this.getCyclic(i - 1, functions_size);
-            final int actual_diff = last_sample_times[before_index] + diff - last_sample_times[i];
+            int diff = (int) (System.currentTimeMillis() - last_sample);
+            int before_index = getCyclic(i - 1, functions_size);
+            int actual_diff = last_sample_times[before_index] + diff - last_sample_times[i];
             last_sample_times[i] = last_sample_times[before_index] + diff;
 
-            final IntConsumer curr_func = this.functions_list.get(i);
+            IntConsumer curr_func = functions_list.get(i);
             curr_func.accept(actual_diff);
-            this.elapsedMilli += actual_diff;
+            elapsedMilli += actual_diff;
             i++;
             i %= functions_size;
         }
     }
 
-    private int getCyclic(int i, final int size) {
+    private int getCyclic(int i, int size) {
         i %= size;
         if (i < 0) {
             return size + i;

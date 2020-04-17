@@ -12,7 +12,6 @@ public class Drone {
     public Map realMap;
     boolean initPaint;
     BufferedImage mImage;
-    int j;
     private double gyroRotation;
     private Point sensorOpticalFlow;
     private Point pointFromStart;
@@ -22,20 +21,20 @@ public class Drone {
     private final CPU cpu;
 
 
-    public Drone(final Map realMap) {
+    public Drone(Map realMap) {
         this.realMap = realMap;
 
         startPoint = realMap.drone_start_point;
-        this.pointFromStart = new Point();
-        this.sensorOpticalFlow = new Point();
-        this.lidars = new ArrayList<>();
+        pointFromStart = new Point();
+        sensorOpticalFlow = new Point();
+        lidars = new ArrayList<>();
 
-        this.speed = 0.2;
+        speed = 0.2;
 
-        this.rotation = 0;
-        this.gyroRotation = this.rotation;
+        rotation = 0;
+        gyroRotation = rotation;
 
-        this.cpu = new CPU(100, "Drone");
+        cpu = new CPU(100, "Drone");
     }
 
     public static double formatRotation(double rotationValue) {
@@ -47,111 +46,107 @@ public class Drone {
     }
 
     public void play() {
-        this.cpu.play();
+        cpu.play();
     }
 
-    public void stop() {
-        this.cpu.stop();
-    }
-
-    public void addLidar(final int degrees) {
-        final Lidar lidar = new Lidar(this, degrees);
-        this.lidars.add(lidar);
-        this.cpu.addFunction(lidar::getSimulationDistance);
+    public void addLidar(int degrees) {
+        Lidar lidar = new Lidar(this, degrees);
+        lidars.add(lidar);
+        cpu.addFunction(lidar::getSimulationDistance);
     }
 
     public Point getPointOnMap() {
-        final double x = this.startPoint.x + this.pointFromStart.x;
-        final double y = this.startPoint.y + this.pointFromStart.y;
+        double x = startPoint.x + pointFromStart.x;
+        double y = startPoint.y + pointFromStart.y;
         return new Point(x, y);
     }
 
-    public void update(final int deltaTime) {
+    public void update(int deltaTime) {
 
-        final double distancedMoved = (this.speed * 100) * ((double) deltaTime / 1000);
+        double distancedMoved = (speed * 100) * ((double) deltaTime / 1000);
 
-        this.pointFromStart = Tools.getPointByDistance(this.pointFromStart, this.rotation, distancedMoved);
+        pointFromStart = Tools.getPointByDistance(pointFromStart, rotation, distancedMoved);
 
-        final double noiseToDistance = Tools.noiseBetween(WorldParams.min_motion_accuracy, WorldParams.max_motion_accuracy, false);
-        this.sensorOpticalFlow = Tools.getPointByDistance(this.sensorOpticalFlow, this.rotation, distancedMoved * noiseToDistance);
+        double noiseToDistance = Tools.noiseBetween(WorldParams.min_motion_accuracy, WorldParams.max_motion_accuracy, false);
+        sensorOpticalFlow = Tools.getPointByDistance(sensorOpticalFlow, rotation, distancedMoved * noiseToDistance);
 
-        final double noiseToRotation = Tools.noiseBetween(WorldParams.min_rotation_accuracy, WorldParams.max_rotation_accuracy, false);
+        double noiseToRotation = Tools.noiseBetween(WorldParams.min_rotation_accuracy, WorldParams.max_rotation_accuracy, false);
         final double milli_per_minute = 60000;
-        this.gyroRotation += (1 - noiseToRotation) * deltaTime / milli_per_minute;
-        this.gyroRotation = Drone.formatRotation(this.gyroRotation);
+        gyroRotation += (1 - noiseToRotation) * deltaTime / milli_per_minute;
+        gyroRotation = formatRotation(gyroRotation);
     }
 
     public double getRotation() {
-        return this.rotation;
+        return rotation;
     }
 
     public double getGyroRotation() {
-        return this.gyroRotation;
+        return gyroRotation;
     }
 
     public Point getOpticalSensorLocation() {
-        return new Point(this.sensorOpticalFlow);
+        return new Point(sensorOpticalFlow);
     }
 
-    public void rotateLeft(final int deltaTime) {
-        final double rotationChanged = WorldParams.rotation_per_second * deltaTime / 1000;
+    public void rotateLeft(int deltaTime) {
+        double rotationChanged = WorldParams.rotation_per_second * deltaTime / 1000;
 
-        this.rotation += rotationChanged;
-        this.rotation = Drone.formatRotation(this.rotation);
+        rotation += rotationChanged;
+        rotation = formatRotation(rotation);
 
-        this.gyroRotation += rotationChanged;
-        this.gyroRotation = Drone.formatRotation(this.gyroRotation);
+        gyroRotation += rotationChanged;
+        gyroRotation = formatRotation(gyroRotation);
     }
 
-    public void rotateRight(final int deltaTime) {
-        final double rotationChanged = -WorldParams.rotation_per_second * deltaTime / 1000;
+    public void rotateRight(int deltaTime) {
+        double rotationChanged = -WorldParams.rotation_per_second * deltaTime / 1000;
 
-        this.rotation += rotationChanged;
-        this.rotation = Drone.formatRotation(this.rotation);
+        rotation += rotationChanged;
+        rotation = formatRotation(rotation);
 
-        this.gyroRotation += rotationChanged;
-        this.gyroRotation = Drone.formatRotation(this.gyroRotation);
+        gyroRotation += rotationChanged;
+        gyroRotation = formatRotation(gyroRotation);
     }
 
-    public void speedUp(final int deltaTime) {
-        this.speed += (WorldParams.accelerate_per_second * deltaTime / 1000);
-        if (this.speed > WorldParams.max_speed) {
-            this.speed = WorldParams.max_speed;
+    public void speedUp(int deltaTime) {
+        speed += (WorldParams.accelerate_per_second * deltaTime / 1000);
+        if (speed > WorldParams.max_speed) {
+            speed = WorldParams.max_speed;
         }
     }
 
-    public void slowDown(final int deltaTime) {
-        this.speed -= (WorldParams.accelerate_per_second * deltaTime / 1000);
-        if (this.speed < 0) {
-            this.speed = 0;
+    public void slowDown(int deltaTime) {
+        speed -= (WorldParams.accelerate_per_second * deltaTime / 1000);
+        if (speed < 0) {
+            speed = 0;
         }
     }
 
-    public void paint(final Graphics g) {
-        if (!this.initPaint) {
+    public void paint(Graphics g) {
+        if (!initPaint) {
             try {
-                final File f = new File(this.drone_img_path);
-                this.mImage = ImageIO.read(f);
-                this.initPaint = true;
-            } catch (final Exception ex) {
+                File f = new File(drone_img_path);
+                mImage = ImageIO.read(f);
+                initPaint = true;
+            } catch (Exception ex) {
 
             }
         }
 
-        for (int i = 0; i < this.lidars.size(); i++) {
-            final Lidar lidar = this.lidars.get(i);
+        for (int i = 0; i < lidars.size(); i++) {
+            Lidar lidar = lidars.get(i);
             lidar.paint(g);
         }
     }
 
     public String getInfoHTML() {
-        final DecimalFormat df = new DecimalFormat("#.####");
+        DecimalFormat df = new DecimalFormat("#.####");
 
         String info = "<html>";
-        info += "Rotation: " + df.format(this.rotation) + "<br>";
-        info += "Location: " + this.pointFromStart + "<br>";
-        info += "gyroRotation: " + df.format(this.gyroRotation) + "<br>";
-        info += "sensorOpticalFlow: " + this.sensorOpticalFlow + "<br>";
+        info += "Rotation: " + df.format(rotation) + "<br>";
+        info += "Location: " + pointFromStart + "<br>";
+        info += "gyroRotation: " + df.format(gyroRotation) + "<br>";
+        info += "sensorOpticalFlow: " + sensorOpticalFlow + "<br>";
         info += "</html>";
         return info;
     }

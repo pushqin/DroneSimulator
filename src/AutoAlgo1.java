@@ -6,19 +6,15 @@ public class AutoAlgo1 {
 	int map_size = 3000;
 	PixelState[][] map;
 	Drone drone;
-	Point droneStartingPoint;
-	ArrayList<Point> points;
+	Point droneStartingPoint = new Point(map_size / 2, map_size / 2);
+	ArrayList<Point> points = new ArrayList<Point>();
 	int isRotating;
-	ArrayList<Double> degrees_left;
-	ArrayList<Func> degrees_left_func;
+	ArrayList<Double> degrees_left = new ArrayList<>();
+	ArrayList<Func> degrees_left_func = new ArrayList<>();
 	boolean isSpeedUp;
 	CPU ai_cpu;
 
 	boolean is_init = true;
-	int leftOrRight = 1;
-	double max_rotation_to_direction = 20;
-	boolean is_finish = true;
-	boolean isLeftRightRotationEnable = true;
 	boolean is_risky;
 	int max_risky_distance = 150;
 	boolean try_to_escape;
@@ -33,9 +29,6 @@ public class AutoAlgo1 {
 
 
 	public AutoAlgo1(Map realMap) {
-		degrees_left = new ArrayList<>();
-		degrees_left_func = new ArrayList<>();
-		points = new ArrayList<Point>();
 
 		drone = new Drone(realMap);
 		drone.addLidar(0);
@@ -58,7 +51,6 @@ public class AutoAlgo1 {
 			}
 		}
 
-		droneStartingPoint = new Point(map_size / 2, map_size / 2);
 	}
 
 	public void play() {
@@ -116,7 +108,6 @@ public class AutoAlgo1 {
 		Point fromPoint = new Point(dronePoint.x + droneStartingPoint.x, dronePoint.y + droneStartingPoint.y);
 
 		setPixel(fromPoint.x, fromPoint.y, PixelState.visited);
-
 	}
 
 	public void setPixel(double x, double y, PixelState state) {
@@ -175,7 +166,6 @@ public class AutoAlgo1 {
 
 		drone.paint(g);
 
-
 	}
 
 	public void ai(int deltaTime) {
@@ -191,11 +181,6 @@ public class AutoAlgo1 {
 			points.add(dronePoint);
 			is_init = false;
 		}
-
-		if (isLeftRightRotationEnable) {
-			//doLeftRight();
-		}
-
 
 		Point dronePoint = drone.getOpticalSensorLocation();
 
@@ -271,23 +256,6 @@ public class AutoAlgo1 {
 				});
 			}
 		}
-
-		//}
-	}
-
-	public void doLeftRight() {
-		if (is_finish) {
-			leftOrRight *= -1;
-			counter++;
-			is_finish = false;
-
-			spinBy(max_rotation_to_direction * leftOrRight, false, new Func() {
-				@Override
-				public void method() {
-					is_finish = true;
-				}
-			});
-		}
 	}
 
 	public void updateRotating(int deltaTime) {
@@ -360,21 +328,6 @@ public class AutoAlgo1 {
 		isRotating = 1;
 	}
 
-	public void spinBy(double degrees, boolean isFirst) {
-		lastGyroRotation = drone.getGyroRotation();
-		if (isFirst) {
-			degrees_left.add(0, degrees);
-			degrees_left_func.add(0, null);
-
-
-		} else {
-			degrees_left.add(degrees);
-			degrees_left_func.add(null);
-		}
-
-		isRotating = 1;
-	}
-
 	public void spinBy(double degrees) {
 		lastGyroRotation = drone.getGyroRotation();
 
@@ -390,14 +343,6 @@ public class AutoAlgo1 {
 
 		Point p1 = points.get(points.size() - 1);
 		return p1;
-	}
-
-	public Point removeLastPoint() {
-		if (points.isEmpty()) {
-			return init_point;
-		}
-
-		return points.remove(points.size() - 1);
 	}
 
 	public Point getAvgLastPoint() {
