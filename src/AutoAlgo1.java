@@ -96,7 +96,7 @@ public class AutoAlgo1 {
 				setPixel(p.x, p.y, PixelState.explored);
 			}
 
-			if (lidar.current_distance > 0 && lidar.current_distance < WorldParams.lidarLimit - WorldParams.lidarNoise) {
+			if (lidar.current_distance > 0 && lidar.current_distance < WorldParams.lidarLimit) {
 				Point p = Tools.getPointByDistance(fromPoint, rotation, lidar.current_distance);
 				setPixel(p.x, p.y, PixelState.blocked);
 			}

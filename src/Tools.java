@@ -15,21 +15,6 @@ public class Tools {
 		return new Point(xi, yi);
 	}
 
-	public static double noiseBetween(double min, double max, boolean isNegative) {
-		Random rand = new Random();
-		double noiseToDistance = 1;
-		double noise = (min + rand.nextFloat() * (max - min)) / 100;
-		if (!isNegative) {
-			return noiseToDistance + noise;
-		}
-
-		if (rand.nextBoolean()) {
-			return noiseToDistance + noise;
-		} else {
-			return noiseToDistance - noise;
-		}
-	}
-
 	public static double getDistanceBetweenPoints(Point from, Point to) {
 		double x1 = (from.x - to.x) * (from.x - to.x);
 		double y1 = (from.y - to.y) * (from.y - to.y);

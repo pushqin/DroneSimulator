@@ -67,12 +67,10 @@ public class Drone {
 
         pointFromStart = Tools.getPointByDistance(pointFromStart, rotation, distancedMoved);
 
-        double noiseToDistance = Tools.noiseBetween(WorldParams.min_motion_accuracy, WorldParams.max_motion_accuracy, false);
-        sensorOpticalFlow = Tools.getPointByDistance(sensorOpticalFlow, rotation, distancedMoved * noiseToDistance);
+        sensorOpticalFlow = Tools.getPointByDistance(sensorOpticalFlow, rotation, distancedMoved);
 
-        double noiseToRotation = Tools.noiseBetween(WorldParams.min_rotation_accuracy, WorldParams.max_rotation_accuracy, false);
         final double milli_per_minute = 60000;
-        gyroRotation += (1 - noiseToRotation) * deltaTime / milli_per_minute;
+        gyroRotation += deltaTime / milli_per_minute;
         gyroRotation = formatRotation(gyroRotation);
     }
 

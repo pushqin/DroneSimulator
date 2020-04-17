@@ -29,16 +29,7 @@ public class Lidar {
     }
 
     public void getSimulationDistance(int deltaTime) {
-        Random ran = new Random();
-        double distanceInCM;
-        if (ran.nextFloat() <= 0.05f) { // 5% of the time, not getting an answer
-            distanceInCM = 0;
-        } else {
-            distanceInCM = getDistance(deltaTime);
-            distanceInCM += ran.nextInt(WorldParams.lidarNoise * 2) - WorldParams.lidarNoise; // +- 5 CM to the final calc
-        }
-
-        current_distance = distanceInCM; // store it for instance get
+        current_distance = getDistance(deltaTime);; // store it for instance get
     }
 
 
