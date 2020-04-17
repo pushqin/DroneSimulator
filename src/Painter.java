@@ -1,18 +1,17 @@
+import javax.swing.*;
 import java.awt.*;
 
-import javax.swing.JComponent;
 
+public class Painter extends JComponent {
+    AutoAlgo1 algo;
 
-public class Painter extends JComponent{
-	AutoAlgo1 algo;
-	
-	public Painter(AutoAlgo1 algo) {
-		this.algo = algo;
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		algo.paint(g);
-	}
+    public Painter(final AutoAlgo1 algo) {
+        this.algo = algo;
+    }
+
+    @Override
+    public void paintComponent(final Graphics g) {
+        super.paintComponent(g);
+        this.algo.paint(g);
+    }
 }
