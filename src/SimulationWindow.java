@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 public class SimulationWindow {
 
     public static JLabel info_label;
-    public static boolean return_home;
     public static boolean toogleRealMap = true;
     public static boolean toogleAI;
     public static AutoAlgo1 algo1;
@@ -180,27 +179,6 @@ public class SimulationWindow {
         });
         toogleAIBtn.setBounds(1400, 400, 120, 50);
         this.frame.getContentPane().add(toogleAIBtn);
-
-        /*
-         * RETURN TO HOME
-         */
-
-
-        final JButton returnBtn = new JButton("Return Home");
-        returnBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                SimulationWindow.return_home = !SimulationWindow.return_home;
-                SimulationWindow.algo1.speedDown();
-                SimulationWindow.algo1.spinBy(180, true, new Func() {
-                    @Override
-                    public void method() {
-                        SimulationWindow.algo1.speedUp();
-                    }
-                });
-            }
-        });
-        returnBtn.setBounds(1500, 400, 120, 50);
-        this.frame.getContentPane().add(returnBtn);
 
         /*
          * Info label

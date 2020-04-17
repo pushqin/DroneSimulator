@@ -199,22 +199,9 @@ public class AutoAlgo1 {
 
 		Point dronePoint = drone.getOpticalSensorLocation();
 
-
-		if (SimulationWindow.return_home) {
-
-			if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) < max_distance_between_points) {
-				if (points.size() <= 1 && Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) < max_distance_between_points / 5) {
-					speedDown();
-				} else {
-					removeLastPoint();
-				}
-			}
-		} else {
-			if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >= max_distance_between_points) {
-				points.add(dronePoint);
-			}
+		if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >= max_distance_between_points) {
+			points.add(dronePoint);
 		}
-
 
 		if (!is_risky) {
 			Lidar lidar = drone.lidars.get(0);
@@ -256,21 +243,11 @@ public class AutoAlgo1 {
 					double dis_to_lidar1 = Tools.getDistanceBetweenPoints(last_point, l1);
 					double dis_to_lidar2 = Tools.getDistanceBetweenPoints(last_point, l2);
 
-					if (SimulationWindow.return_home) {
-						if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) < max_distance_between_points) {
-							removeLastPoint();
-						}
-					} else {
-						if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >= max_distance_between_points) {
-							points.add(dronePoint);
-						}
+					if (Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >= max_distance_between_points) {
+						points.add(dronePoint);
 					}
 
 					spin_by = 90;
-					if (SimulationWindow.return_home) {
-						spin_by *= -1;
-					}
-
 
 					if (dis_to_lidar1 < dis_to_lidar2) {
 
