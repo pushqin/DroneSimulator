@@ -98,16 +98,6 @@ public class Drone {
         gyroRotation = formatRotation(gyroRotation);
     }
 
-    public void rotateRight(int deltaTime) {
-        double rotationChanged = -WorldParams.rotation_per_second * deltaTime / 1000;
-
-        rotation += rotationChanged;
-        rotation = formatRotation(rotation);
-
-        gyroRotation += rotationChanged;
-        gyroRotation = formatRotation(gyroRotation);
-    }
-
     public void speedUp(int deltaTime) {
         speed += (WorldParams.accelerate_per_second * deltaTime / 1000);
         if (speed > WorldParams.max_speed) {

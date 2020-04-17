@@ -36,8 +36,7 @@ public class SimulationWindow {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().setLayout(null);
 
-
-
+        // <editor-fold defaultstate="collapsed" desc="-----Buttons-----">
         /*
          * Stop\Resume
          */
@@ -58,7 +57,6 @@ public class SimulationWindow {
         /*
          * Speeds
          */
-
 
         JButton speedBtn1 = new JButton("speedUp");
         speedBtn1.addActionListener(new ActionListener() {
@@ -190,21 +188,28 @@ public class SimulationWindow {
         info_label2.setBounds(1400, 450, 300, 200);
         frame.getContentPane().add(info_label2);
 
+        // </editor-fold>
+
         main();
     }
 
     public void main() {
         final int map_num = 4;
+
+        // Drone start point for each map
         Point[] startPoints = {
                 new Point(100, 50),
                 new Point(50, 60),
                 new Point(73, 68),
                 new Point(84, 73),
-                new Point(92, 100)};
+                new Point(92, 100),
+                new Point(80, 40)
+        };
 
         Map map = new Map("E:\\Repos\\DroneSimulator\\Maps\\p1" + map_num + ".png", startPoints[map_num - 1]);
 
-        SimulationWindow.algo1 = new AutoAlgo1(map);
+        algo1 = new AutoAlgo1(map);
+
 
         Painter painter = new Painter(algo1);
         painter.setBounds(0, 0, 2000, 2000);
@@ -214,15 +219,18 @@ public class SimulationWindow {
         painterCPU.addFunction(frame::repaint);
         painterCPU.play();
 
-        SimulationWindow.algo1.play();
+        algo1.play();
 
+        // Move painter
         CPU updatesCPU = new CPU(60, "updates");
         updatesCPU.addFunction(SimulationWindow.algo1.drone::update);
         updatesCPU.play();
 
+        // Infos  update
         CPU infoCPU = new CPU(6, "update_info");
         infoCPU.addFunction(this::updateInfo);
         infoCPU.play();
+
     }
 
     public void updateInfo(int deltaTime) {

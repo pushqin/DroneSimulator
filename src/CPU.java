@@ -8,7 +8,6 @@ public class CPU {
     public List<IntConsumer> functions_list;
     Thread thread;
     private boolean isPlay;
-    private long elapsedMilli;
     private boolean isPlayedBeforeStop;
 
     public CPU(int hz, String name) {
@@ -17,7 +16,6 @@ public class CPU {
         isPlayedBeforeStop = false;
 
         this.hz = hz;
-        elapsedMilli = 0;
         thread = new Thread("Eventor_" + name) {
             public void run() {
                 try {
@@ -65,21 +63,13 @@ public class CPU {
         resume();
     }
 
-    public void stop() {
-        isPlay = false;
-        isPlayedBeforeStop = false;
-    }
-
     public void thread_run() {
         int functions_size = 0;
         int[] last_sample_times = null;
         long last_sample;
         int i = 0;
 
-        int time_to_sleep = 2;
-        if (1000 / hz > 1) {
-            time_to_sleep = 1000 / hz;
-        }
+        int time_to_sleep =  1000 / hz;
 
         while (true) {
 
@@ -112,7 +102,6 @@ public class CPU {
 
             IntConsumer curr_func = functions_list.get(i);
             curr_func.accept(actual_diff);
-            elapsedMilli += actual_diff;
             i++;
             i %= functions_size;
         }
