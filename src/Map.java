@@ -1,10 +1,8 @@
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Window;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 
 
 public class Map{
@@ -21,7 +19,7 @@ public class Map{
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean[][] render_map_from_image_to_boolean(BufferedImage map_img) {
 		int w = map_img.getWidth();
 		int h = map_img.getHeight();
@@ -52,6 +50,7 @@ public class Map{
 		for(int i=0;i<map.length;i++) {
 			for(int j=0;j<map[0].length;j++) {
 				if(!map[i][j])  {
+					// All map
 					g.drawLine(i, j, i, j);
 				}
 			}

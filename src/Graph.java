@@ -1,18 +1,16 @@
-import java.util.Iterator;
-import java.util.Set;
-
-import javax.swing.JFrame;
-
-import org.jgrapht.*;
-import org.jgrapht.graph.*;
-import org.jgrapht.alg.shortestpath.AllDirectedPaths;
-import org.jgrapht.alg.spanning.*;
-import org.jgrapht.ext.JGraphXAdapter;
-import org.jgrapht.graph.DefaultEdge;
-
 import com.mxgraph.layout.mxCircleLayout;
 import com.mxgraph.layout.mxIGraphLayout;
 import com.mxgraph.swing.mxGraphComponent;
+import org.jgrapht.*;
+import org.jgrapht.alg.spanning.*;
+import org.jgrapht.ext.JGraphXAdapter;
+import org.jgrapht.graph.*;
+import org.jgrapht.graph.DefaultEdge;
+
+
+
+import javax.swing.*;
+import java.util.Set;
 
 public class Graph {
 

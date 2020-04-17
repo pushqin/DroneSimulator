@@ -70,15 +70,6 @@ public class CPU{
 		isPlayedBeforeStop = false;
 	}
 	
-	public long getElapsedMilli() {
-		return this.elapsedMilli;
-	}
-	
-	public void resetClock() {
-		this.elapsedMilli = 0;
-	}
-	
-	
 	public void thread_run() {
 		int functions_size= 0;
 		int[] last_sample_times = null;
@@ -91,7 +82,6 @@ public class CPU{
 		}
 
 		while(true) {
-			
 			if(functions_size != functions_list.size()) {
 				functions_size = functions_list.size();
 				last_sample_times = new int[functions_size];

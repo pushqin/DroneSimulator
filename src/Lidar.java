@@ -23,20 +23,20 @@ public class Lidar{
 			}
 			distanceInCM++;
 		}
-		
-		
+
+
 		return distanceInCM;
 	}
 	
 	public double getSimulationDistance(int deltaTime) {
 		Random ran= new Random();
 		double distanceInCM;
-		if(ran.nextFloat() <= 0.05f) { // 5% of the time, not getting an answer
-			distanceInCM = 0;
-		} else {
+//		if(ran.nextFloat() <= 0.05f) { // 5% of the time, not getting an answer
+//			distanceInCM = 0;
+//		} else {
 			distanceInCM = getDistance(deltaTime);
-			distanceInCM += (int)ran.nextInt(WorldParams.lidarNoise*2) - WorldParams.lidarNoise; // +- 5 CM to the final calc
-		}
+			//distanceInCM += ran.nextInt(WorldParams.lidarNoise*2) - WorldParams.lidarNoise; // +- 5 CM to the final calc
+	//F	}
 		
 		
 		
@@ -51,7 +51,7 @@ public class Lidar{
 		Point to = Tools.getPointByDistance(actualPointToShoot, fromRotation, this.current_distance);
 
 		
-	
+		// Lidar projections
 		g.drawLine((int)actualPointToShoot.x,(int)actualPointToShoot.y, (int)to.x, (int)to.y);
 	}
 	

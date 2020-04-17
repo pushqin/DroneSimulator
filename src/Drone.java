@@ -1,7 +1,5 @@
 import javax.imageio.ImageIO;
-
-import java.awt.Graphics;
-import java.awt.Window;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.DecimalFormat;
@@ -31,7 +29,7 @@ public class Drone {
 
 		speed = 0.2;
 		
-		rotation = 0;
+		rotation = 90;
 		gyroRotation = rotation;
 		
 		cpu = new CPU(100,"Drone");
@@ -59,17 +57,22 @@ public class Drone {
 	}
 	
 	public void update(int deltaTime) {
-
+		//System.out.println(speed);
 		double distancedMoved = (speed*100)*((double)deltaTime/1000);
-		
+		if(speed==1){
+			//System.out.println(speed);
+		}
+		if(speed==0){
+			//System.out.println(speed);
+		}
 		pointFromStart =  Tools.getPointByDistance(pointFromStart, rotation, distancedMoved);
 		
-		double noiseToDistance = Tools.noiseBetween(WorldParams.min_motion_accuracy,WorldParams.max_motion_accuracy,false);
-		sensorOpticalFlow = Tools.getPointByDistance(sensorOpticalFlow, rotation, distancedMoved*noiseToDistance);
-		
-		double noiseToRotation = Tools.noiseBetween(WorldParams.min_rotation_accuracy,WorldParams.max_rotation_accuracy,false);
+		//double noiseToDistance = Tools.noiseBetween(WorldParams.min_motion_accuracy,WorldParams.max_motion_accuracy,false);
+		sensorOpticalFlow = Tools.getPointByDistance(sensorOpticalFlow, rotation, distancedMoved);
+
+		//double noiseToRotation = Tools.noiseBetween(WorldParams.min_rotation_accuracy,WorldParams.max_rotation_accuracy,false);
 		double milli_per_minute = 60000;
-		gyroRotation += (1-noiseToRotation)*deltaTime/milli_per_minute;
+		gyroRotation += (1)*deltaTime/milli_per_minute;
 		gyroRotation = formatRotation(gyroRotation);
 	}
 	
@@ -115,14 +118,14 @@ public class Drone {
 	}
 	
 	public void speedUp(int deltaTime) {
-		speed += (WorldParams.accelerate_per_second*deltaTime/1000);
+		speed += (WorldParams.accelerate_per_second);
 		if(speed > WorldParams.max_speed) {
 			speed =WorldParams.max_speed;
 		}
 	}
 	
 	public void slowDown(int deltaTime) {
-		speed -= (WorldParams.accelerate_per_second*deltaTime/1000);
+		speed -= (WorldParams.accelerate_per_second/20);
 		if(speed < 0) {
 			speed = 0;
 		}
