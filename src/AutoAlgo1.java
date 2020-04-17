@@ -19,7 +19,7 @@ public class AutoAlgo1 {
 	
 	boolean isSpeedUp = false;
 	
-	Graph mGraph = new Graph();
+	//Graph mGraph = new Graph();
 	
 	CPU ai_cpu;
 	public AutoAlgo1(Map realMap) {
@@ -257,7 +257,6 @@ public class AutoAlgo1 {
 			Point dronePoint = drone.getOpticalSensorLocation();
 			init_point = new Point(dronePoint);
 			points.add(dronePoint);
-			mGraph.addVertex(dronePoint);
 			is_init = false;
 		}
 		
@@ -281,7 +280,6 @@ public class AutoAlgo1 {
 		} else {
 			if( Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >=  max_distance_between_points) {
 				points.add(dronePoint);
-				mGraph.addVertex(dronePoint);
 			}
 		}
 	
@@ -336,7 +334,6 @@ public class AutoAlgo1 {
 					} else {
 						if( Tools.getDistanceBetweenPoints(getLastPoint(), dronePoint) >=  max_distance_between_points) {
 							points.add(dronePoint);
-							mGraph.addVertex(dronePoint);
 						}
 					}
 					

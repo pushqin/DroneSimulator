@@ -227,18 +227,7 @@ public class SimulationWindow {
 		});
 		returnBtn.setBounds(1500, 400, 120, 50);
 		frame.getContentPane().add(returnBtn);
-		
-		JButton Graph = new JButton("Open Graph");
-		Graph.addActionListener(new ActionListener()
-		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.mGraph.drawGraph();
-			  }
-		});
-		Graph.setBounds(1600, 400, 120, 50);
-		frame.getContentPane().add(Graph);
-		
+
 		/*
 		 * Info label 
 		 */
@@ -275,7 +264,7 @@ public class SimulationWindow {
 				new Point(84,73),
 				new Point(92,100)};
 		
-		Map map = new Map("D:\\Tests\\Maps\\p1" + map_num + ".png",startPoints[map_num-1]);
+		Map map = new Map("E:\\Repos\\DroneSimulator\\Maps\\p1" + map_num + ".png",startPoints[map_num-1]);
 		
 		algo1 = new AutoAlgo1(map);
 		
