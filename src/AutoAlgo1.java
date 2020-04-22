@@ -71,7 +71,7 @@ public class AutoAlgo1 {
 		if (isSpeedUp) {
 			drone.speedUp(deltaTime);
 		} else {
-			drone.slowDown(deltaTime);
+			drone.slowDown();
 		}
 
 	}
@@ -189,13 +189,13 @@ public class AutoAlgo1 {
 		}
 
 		if (!is_risky) {
+			speedUp();
 			Lidar lidar = drone.lidars.get(0);
 			if (lidar.current_distance <= max_risky_distance) {
 				is_risky = true;
 				risky_dis = lidar.current_distance;
 
 			}
-
 
 			Lidar lidar1 = drone.lidars.get(1);
 			if (lidar1.current_distance <= max_risky_distance / 3) {
@@ -209,6 +209,7 @@ public class AutoAlgo1 {
 
 		} else {
 			if (!try_to_escape) {
+				speedDown();
 				try_to_escape = true;
 				Lidar lidar1 = drone.lidars.get(1);
 				double a = lidar1.current_distance;

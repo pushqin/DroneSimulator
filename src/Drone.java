@@ -31,7 +31,7 @@ public class Drone {
 
         speed = 0.2;
 
-        rotation = 0;
+        rotation = 90;
         gyroRotation = rotation;
 
         cpu = new CPU(100, "Drone");
@@ -105,8 +105,8 @@ public class Drone {
         }
     }
 
-    public void slowDown(int deltaTime) {
-        speed -= (WorldParams.accelerate_per_second * deltaTime / 1000);
+    public void slowDown() {
+        speed -= (WorldParams.accelerate_per_second * 1000);
         if (speed < 0) {
             speed = 0;
         }

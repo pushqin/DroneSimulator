@@ -194,7 +194,7 @@ public class SimulationWindow {
     }
 
     public void main() {
-        final int map_num = 4;
+        final int map_num = 5;
 
         // Drone start point for each map
         Point[] startPoints = {
@@ -209,7 +209,6 @@ public class SimulationWindow {
         Map map = new Map("E:\\Repos\\DroneSimulator\\Maps\\p1" + map_num + ".png", startPoints[map_num - 1]);
 
         algo1 = new AutoAlgo1(map);
-
 
         Painter painter = new Painter(algo1);
         painter.setBounds(0, 0, 2000, 2000);
