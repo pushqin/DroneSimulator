@@ -194,7 +194,7 @@ public class SimulationWindow {
     }
 
     public void main() {
-        final int map_num = 4;
+        final int map_num = 5;
 
         // Drone start point for each map
         Point[] startPoints = {

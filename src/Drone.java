@@ -98,15 +98,15 @@ public class Drone {
         gyroRotation = formatRotation(gyroRotation);
     }
 
-    public void speedUp(int deltaTime) {
-        speed += (WorldParams.accelerate_per_second * deltaTime / 1000);
+    public void speedUp() {
+        speed += (WorldParams.accelerate_per_second);
         if (speed > WorldParams.max_speed) {
             speed = WorldParams.max_speed;
         }
     }
 
-    public void slowDown(int deltaTime) {
-        speed -= (WorldParams.accelerate_per_second * deltaTime / 1000);
+    public void slowDown() {
+        speed -= (WorldParams.accelerate_per_second);
         if (speed < 0) {
             speed = 0;
         }

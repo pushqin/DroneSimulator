@@ -69,9 +69,9 @@ public class AutoAlgo1 {
 			updateRotating(deltaTime);
 		}
 		if (isSpeedUp) {
-			drone.speedUp(deltaTime);
+			drone.speedUp();
 		} else {
-			drone.slowDown(deltaTime);
+			drone.slowDown();
 		}
 
 	}
@@ -153,7 +153,6 @@ public class AutoAlgo1 {
 			Point p = points.get(i);
 			g.drawOval((int) p.x + (int) drone.startPoint.x - 10, (int) p.y + (int) drone.startPoint.y - 10, 20, 20);
 		}
-
 	}
 
 	public void paint(Graphics g) {
@@ -165,14 +164,12 @@ public class AutoAlgo1 {
 		paintPoints(g);
 
 		drone.paint(g);
-
 	}
 
 	public void ai(int deltaTime) {
 		if (!SimulationWindow.toogleAI) {
 			return;
 		}
-
 
 		if (is_init) {
 			speedUp();
@@ -188,39 +185,38 @@ public class AutoAlgo1 {
 			points.add(dronePoint);
 		}
 
+
+		Lidar lidarForward = drone.lidars.get(0);
+		if (lidarForward.current_distance <= max_risky_distance / 5) {
+			is_risky = true;
+		}
+
+		Lidar lidar1 = drone.lidars.get(1);
+		if (lidar1.current_distance <= max_risky_distance / 7) {
+			is_risky = true;
+		}
+
+		Lidar lidar2 = drone.lidars.get(2);
+		if (lidar2.current_distance <= max_risky_distance / 7) {
+			is_risky = true;
+		}
+
 		if (!is_risky) {
+			speedUp();
 			Lidar lidar = drone.lidars.get(0);
 			if (lidar.current_distance <= max_risky_distance) {
 				is_risky = true;
 				risky_dis = lidar.current_distance;
-
 			}
-
-
-			Lidar lidar1 = drone.lidars.get(1);
-			if (lidar1.current_distance <= max_risky_distance / 3) {
-				is_risky = true;
-			}
-
-			Lidar lidar2 = drone.lidars.get(2);
-			if (lidar2.current_distance <= max_risky_distance / 3) {
-				is_risky = true;
-			}
-
 		} else {
+			speedDown();
 			if (!try_to_escape) {
+
 				try_to_escape = true;
-				Lidar lidar1 = drone.lidars.get(1);
-				double a = lidar1.current_distance;
-
-				Lidar lidar2 = drone.lidars.get(2);
-				double b = lidar2.current_distance;
-
 
 				int spin_by = max_angle_risky;
 
-
-				if (a > 270 && b > 270) {
+				if (lidar1.current_distance > 270 &&  lidar2.current_distance > 270) {
 					is_lidars_max = true;
 					Point l1 = Tools.getPointByDistance(dronePoint, lidar1.degrees + drone.getGyroRotation(), lidar1.current_distance);
 					Point l2 = Tools.getPointByDistance(dronePoint, lidar2.degrees + drone.getGyroRotation(), lidar2.current_distance);
@@ -232,7 +228,7 @@ public class AutoAlgo1 {
 						points.add(dronePoint);
 					}
 
-					spin_by = 90;
+					spin_by = 100;
 
 					if (dis_to_lidar1 < dis_to_lidar2) {
 
@@ -240,12 +236,10 @@ public class AutoAlgo1 {
 					}
 				} else {
 
-
-					if (a < b) {
+					if (lidar1.current_distance < lidar2.current_distance) {
 						spin_by *= (-1);
 					}
 				}
-
 
 				spinBy(spin_by, true, new Func() {
 					@Override
