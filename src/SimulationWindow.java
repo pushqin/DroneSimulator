@@ -1,4 +1,4 @@
-import java.awt.EventQueue;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,6 +7,8 @@ import javax.swing.*;
 public class SimulationWindow {
 
 	private JFrame frame;
+	static int SCREEN_WIDTH;
+	static int SCREEN_HEIGHT;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -30,222 +32,225 @@ public class SimulationWindow {
 	boolean toogleStop = true;
 	private void initialize() {
 		frame = new JFrame();
-		frame.setSize(1800,700);
+		Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
+		SCREEN_WIDTH=screensize.width;
+		SCREEN_HEIGHT=screensize.height;
+		frame.setSize(SCREEN_WIDTH,SCREEN_HEIGHT);
 		frame.setTitle("Drone Simulator");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		
-		
-		
+
+
+
 		/*
 		 * Stop\Resume
 		 */
-	
+
 		JButton stopBtn = new JButton("Start/Pause");
 		stopBtn.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  if(toogleStop) {
-					  CPU.stopAllCPUS();
-				  } else {
-					  CPU.resumeAllCPUS();
-				  }
-				  toogleStop = !toogleStop;
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				if(toogleStop) {
+					CPU.stopAllCPUS();
+				} else {
+					CPU.resumeAllCPUS();
+				}
+				toogleStop = !toogleStop;
+			}
 		});
-		stopBtn.setBounds(1300, 0, 170, 50);
+		stopBtn.setBounds(700, 0, 170, 50);
 		frame.getContentPane().add(stopBtn);
 		/*
 		 * Speeds
 		 */
-		
-		
+
+
 		JButton speedBtn1 = new JButton("speedUp");
 		speedBtn1.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.speedUp();
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.speedUp();
+			}
 		});
-		speedBtn1.setBounds(1300, 100, 100, 50);
+		speedBtn1.setBounds(700, 100, 100, 50);
 		frame.getContentPane().add(speedBtn1);
-		
+
 		JButton speedBtn2 = new JButton("speedDown");
 		speedBtn2.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.speedDown();
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.speedDown();
+			}
 		});
-		speedBtn2.setBounds(1400, 100, 100, 50);
+		speedBtn2.setBounds(800, 100, 100, 50);
 		frame.getContentPane().add(speedBtn2);
-		
+
 		/*
 		 * Spins
 		 */
-		
+
 		JButton spinBtn1 = new JButton("spin180");
 		spinBtn1.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(180);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(180);
+			}
 		});
-		spinBtn1.setBounds(1300, 200, 100, 50);
+		spinBtn1.setBounds(700, 200, 100, 50);
 		frame.getContentPane().add(spinBtn1);
-		
+
 		JButton spinBtn2 = new JButton("spin90");
 		spinBtn2.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(90);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(90);
+			}
 		});
-		spinBtn2.setBounds(1400, 200, 100, 50);
+		spinBtn2.setBounds(800, 200, 100, 50);
 		frame.getContentPane().add(spinBtn2);
-		
+
 		JButton spinBtn3 = new JButton("spin60");
 		spinBtn3.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(60);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(60);
+			}
 		});
-		spinBtn3.setBounds(1500, 200, 100, 50);
+		spinBtn3.setBounds(900, 200, 100, 50);
 		frame.getContentPane().add(spinBtn3);
-		
+
 		JButton spinBtn4 = new JButton("spin45");
 		spinBtn4.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(60);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(60);
+			}
 		});
-		spinBtn4.setBounds(1300, 300, 100, 50);
+		spinBtn4.setBounds(700, 300, 100, 50);
 		frame.getContentPane().add(spinBtn4);
-		
+
 		JButton spinBtn5 = new JButton("spin30");
 		spinBtn5.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(30);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(30);
+			}
 		});
-		spinBtn5.setBounds(1400, 300, 100, 50);
+		spinBtn5.setBounds(800, 300, 100, 50);
 		frame.getContentPane().add(spinBtn5);
-		
+
 		JButton spinBtn6 = new JButton("spin-30");
 		spinBtn6.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(-30);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(-30);
+			}
 		});
-		spinBtn6.setBounds(1500, 300, 100, 50);
+		spinBtn6.setBounds(900, 300, 100, 50);
 		frame.getContentPane().add(spinBtn6);
-		
+
 		JButton spinBtn7 = new JButton("spin-45");
 		spinBtn7.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(-45);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(-45);
+			}
 		});
-		spinBtn7.setBounds(1600, 300, 100, 50);
+		spinBtn7.setBounds(1000, 300, 100, 50);
 		frame.getContentPane().add(spinBtn7);
-		
+
 		JButton spinBtn8 = new JButton("spin-60");
 		spinBtn8.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  algo1.spinBy(-60);
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				algo1.spinBy(-60);
+			}
 		});
-		spinBtn8.setBounds(1700, 300, 100, 50);
+		spinBtn8.setBounds(1100, 400, 100, 50);
 		frame.getContentPane().add(spinBtn8);
-		
+
 		/*
 		 * Toogle real map
 		 */
-		
+
 		JButton toogleMapBtn = new JButton("toogle Map");
 		toogleMapBtn.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  toogleRealMap = !toogleRealMap;
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				toogleRealMap = !toogleRealMap;
+			}
 		});
-		toogleMapBtn.setBounds(1300, 400, 120, 50);
+		toogleMapBtn.setBounds(700, 400, 120, 50);
 		frame.getContentPane().add(toogleMapBtn);
-		
+
 		/*
 		 * Toogle AI
 		 */
-		
+
 		JButton toogleAIBtn = new JButton("toogle AI");
 		toogleAIBtn.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  toogleAI = !toogleAI;
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				toogleAI = !toogleAI;
+			}
 		});
-		toogleAIBtn.setBounds(1400, 400, 120, 50);
+		toogleAIBtn.setBounds(800, 400, 120, 50);
 		frame.getContentPane().add(toogleAIBtn);
-		
+
 		/*
 		 * RETURN TO HOME
 		 */
-		
+
 
 		JButton returnBtn = new JButton("Return Home");
 		returnBtn.addActionListener(new ActionListener()
 		{
-			  public void actionPerformed(ActionEvent e)
-			  {
-				  return_home = !return_home;
-				  algo1.speedDown();
-				  algo1.spinBy(180, true, new Func() {
-						@Override
-						public void method() {
-							algo1.speedUp();
-						}
-					});
-			  }
+			public void actionPerformed(ActionEvent e)
+			{
+				return_home = !return_home;
+				algo1.speedDown();
+				algo1.spinBy(180, true, new Func() {
+					@Override
+					public void method() {
+						algo1.speedUp();
+					}
+				});
+			}
 		});
-		returnBtn.setBounds(1500, 400, 120, 50);
+		returnBtn.setBounds(900, 500, 120, 50);
 		frame.getContentPane().add(returnBtn);
 
 		/*
-		 * Info label 
+		 * Info label
 		 */
-		
-		
+
+
 		info_label = new JLabel();
-		info_label.setBounds(1300, 500, 300, 200);
+		info_label.setBounds(700, 500, 300, 200);
 		frame.getContentPane().add(info_label);
-		
+
 		/*
-		 * Info label 
+		 * Info label
 		 */
-		
-		
+
+
 		info_label2 = new JLabel();
-		info_label2.setBounds(1400, 450, 300, 200);
+		info_label2.setBounds(800, 450, 300, 200);
 		frame.getContentPane().add(info_label2);
-		
+
 		main();
 	}
 	public JLabel info_label2;
@@ -264,7 +269,7 @@ public class SimulationWindow {
 				new Point(84,73),
 				new Point(92,100)};
 		
-		Map map = new Map("E:\\Repos\\DroneSimulator\\Maps\\p1" + map_num + ".png",startPoints[map_num-1]);
+		Map map = new Map("/home/ron/Desktop/YEARINSEMESTERB/ROBOTIKA/EX3/DroneSimulator/Maps/p1" + map_num + ".png",startPoints[map_num-1]);
 		
 		algo1 = new AutoAlgo1(map);
 		
