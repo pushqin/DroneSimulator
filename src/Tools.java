@@ -1,3 +1,5 @@
+import graph.dataStructure.Point3D;
+
 import java.util.Random;
 
 public class Tools {
@@ -52,6 +54,13 @@ public class Tools {
 		double y1 = (from.y-to.y)*(from.y-to.y);
 		return Math.sqrt(x1+y1);
 		
+	}
+
+	public static double getDistanceBetweenPoints(Point3D from, Point to) {
+		double x1 = (from.x() - to.x)*(from.x() - to.x);
+		double y1 = (from.y() - to.y)*(from.y() - to.y);
+		return Math.sqrt(x1+y1);
+
 	}
 	
 }
